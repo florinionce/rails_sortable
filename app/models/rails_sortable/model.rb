@@ -17,8 +17,9 @@ module RailsSortable
       base.extend ClassMethods
     end
 
-    def update_sort!(new_value)
-      write_attribute sort_attribute, new_value
+    def update_sort!(new_value, sortable_column = nil)
+      sortable_column ||= sort_attribute
+      write_attribute sortable_column, new_value
       if self.class.sortable_options[:silence_recording_timestamps]
         silence_recording_timestamps { save! }
       else

@@ -8,7 +8,12 @@
 
     var setting = $.extend(defaults, options);
     setting["update"] = function() {
-      $.post("/sortable/reorder", $(this).sortable('serialize'))
+      params = $(this).sortable('serialize')
+      if(!!this.dataset.sortcolumn) {
+        params += ("&sortable_column=" + this.dataset.sortcolumn)
+      }
+
+      $.post("/sortable/reorder", params)
     }
 
     this.sortable(setting);
