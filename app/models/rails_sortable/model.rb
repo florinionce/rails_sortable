@@ -18,8 +18,8 @@ module RailsSortable
     end
 
     def update_sort!(new_value, sortable_column = nil)
-      sortable_column ||= sort_attribute
-      write_attribute sortable_column, new_value
+      @sortable_column = sortable_column.presence || sort_attribute
+      write_attribute @sortable_column, new_value
       if self.class.sortable_options[:silence_recording_timestamps]
         silence_recording_timestamps { save! }
       else
@@ -47,7 +47,7 @@ module RailsSortable
     end
 
     def sort_attribute
-      self.class.sort_attribute
+      @sortable_column.presence || self.class.sort_attribute
     end
 
     module ClassMethods
